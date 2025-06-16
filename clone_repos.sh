@@ -5,6 +5,8 @@ set -euo pipefail
 declare -A repos=(
   [ws_livox/src/livox_ros_driver2]="https://github.com/Livox-SDK/livox_ros_driver2.git"
   [Livox-SDK2]="https://github.com/Livox-SDK/Livox-SDK2.git"
+  [ws_livox/src/rviz_2d_overlay_plugins]="https://github.com/teamspatzenhirn/rviz_2d_overlay_plugins.git"
+  [ws_livox/src/SuperOdom]="https://github.com/superxslam/SuperOdom.git"
 )
 
 for target in "${!repos[@]}"; do
