@@ -12,7 +12,8 @@ services:
     volumes:
       - ./ros2_ws:/ros2_ws:rw           # whole workspace
       - ./Livox-SDK2:/Livox-SDK2:rw 
-      - /tmp/.X11-unix:/tmp/.X11-unix      # SDK sources (optional)
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./data:/data:ro      # SDK sources (optional)
     command: >
       bash -c "
         source /opt/ros/humble/setup.bash &&
@@ -29,3 +30,4 @@ services:
       - ROS_LOCALHOST_ONLY=0
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - DATASET_DIR=/datasets

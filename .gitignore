@@ -2,6 +2,7 @@
 Livox-SDK2/
 Sophus/
 gtsam/
+data/cmu-scafie/
 
 # Ignore all cloned ROS2 packages under ros2_ws/src
 ros2_ws/src/SuperOdom/

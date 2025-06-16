@@ -87,6 +87,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
        python3-llvmlite \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --no-cache-dir rerun-sdk
+RUN pip install rerun-sdk
+RUN pip install numpy==1.24.3 matplotlib==3.7.1
+RUN pip install --upgrade packaging
+RUN pip3 install torch --ignore-installed
+
+ENV PROJECT_DIR=/ros2_ws/src           \
+    DATASET_DIR=/data
+
 # Same entrypoint as before
 WORKDIR /ros2_ws
