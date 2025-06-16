@@ -11,9 +11,5 @@ RUN mkdir /Livox-SDK2/build && cd /Livox-SDK2/build \
  && cmake .. && make -j$(nproc) && make install \
  && echo '/usr/local/lib' > /etc/ld.so.conf.d/livox_lidar.conf && ldconfig
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        ros-humble-rmw-cyclonedds-cpp && \
-    rm -rf /var/lib/apt/lists/*
 # Same entrypoint as before
 WORKDIR /ws_livox
