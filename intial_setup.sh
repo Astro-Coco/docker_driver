@@ -32,3 +32,16 @@ else
   echo "⚠️  File not found: $OLD_FILE" >&2
   exit 1
 fi
+
+config_src="MID360_config.json"
+config_dst="ws_livox/src/livox_ros_driver2/config/MID360_config.json"
+
+if [ -f "$config_src" ]; then
+  echo "Copying config $config_src → $config_dst"
+  mkdir -p "$(dirname "$config_dst")"
+  cp "$config_src" "$config_dst"
+  echo "Configuration updated."
+else
+  echo "⚠️  Config file not found: $config_src" >&2
+  exit 1
+fi
