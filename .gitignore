@@ -1,2 +1,12 @@
-/Livox_SDK2/
-/ws_livox/
+# Ignore embedded Livox SDK
+Livox-SDK2/
+
+# Ignore all cloned ROS2 packages under ws_livox/src
+ws_livox/src/SuperOdom/
+ws_livox/src/livox_ros_driver2/
+ws_livox/src/rviz_2d_overlay_plugins/
+
+# (Optionnel) ignores généraux
+*.db3
+build/
+.install/
