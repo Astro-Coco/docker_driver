@@ -10,16 +10,16 @@ services:
     stdin_open: true
     # ⬇️  Bind-mount your workspaces so you can edit freely
     volumes:
-      - ./ws_livox:/ws_livox:rw           # whole workspace
+      - ./ros2_ws:/ros2_ws:rw           # whole workspace
       - ./Livox-SDK2:/Livox-SDK2:rw 
       - /tmp/.X11-unix:/tmp/.X11-unix      # SDK sources (optional)
     command: >
       bash -c "
         source /opt/ros/humble/setup.bash &&
-        cd /ws_livox &&
+        cd /ros2_ws &&
         colcon build --symlink-install --cmake-args -DHUMBLE_ROS=humble &&
         source install/setup.bash &&
-        ros2 daemon start
+        ros2 daemon start &&
         ros2 launch livox_ros_driver2 msg_MID360_launch.py
       "
     environment:
@@ -29,4 +29,3 @@ services:
       - ROS_LOCALHOST_ONLY=0
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      
