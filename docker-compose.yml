@@ -13,7 +13,10 @@ services:
       - ./ros2_ws:/ros2_ws:rw           # whole workspace
       - ./Livox-SDK2:/Livox-SDK2:rw 
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./data:/data:ro      # SDK sources (optional)
+      - ./data:/data:ro  
+      - /mnt/wslg/.X11-unix:/mnt/wslg/.X11-unix:ro
+      - /mnt/wslg/.X11-unix:/tmp/.X11-unix:ro      # legacy path
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}    # SDK sources (optional)
     command: >
       bash -c "
         source /opt/ros/humble/setup.bash &&
@@ -30,4 +33,7 @@ services:
       - ROS_LOCALHOST_ONLY=0
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      - DATASET_DIR=/datasets
+      - DATASET_DIR=/data
+      - DISPLAY
+      - WAYLAND_DISPLAY
+      - XDG_RUNTIME_DIR
