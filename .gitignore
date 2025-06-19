@@ -11,6 +11,7 @@ ros2_ws/src/rviz_2d_overlay_plugins/
 
 # (Optionnel) ignores généraux
 *.db3
+*.yaml
 build/
 .install/
 # ROS2 build artifacts

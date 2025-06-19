@@ -34,7 +34,7 @@ This document guides you through setting up and running the Livox Mid360 LiDAR d
 Start the container in detached mode:
 
 ```bash
-docker compose up -d
+docker compose up
 ```
 
 ### Stop Docker
@@ -77,7 +77,27 @@ ros2 launch livox_ros_driver2 msg_MID360_launch.py
 ros2 launch super_odometry livox_mid360.launch.py
 ```
 
----
+## 3. Recording data and tmux
+
+### Creating a tmux session
+
+```bash
+tmux new -s rec
+```
+
+In this bash, once recording started : Ctrl-B and D, to close
+
+### To reopen session later
+
+```bash
+tmux attach -t rec
+```
+
+### To kill tmux
+
+```bash
+tmux kill-session -t rec
+```
 
 ## 4. Next Steps
 
