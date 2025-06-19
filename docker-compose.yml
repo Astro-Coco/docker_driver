@@ -13,10 +13,7 @@ services:
       - ./ros2_ws:/ros2_ws:rw           # whole workspace
       - ./Livox-SDK2:/Livox-SDK2:rw 
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./data:/data:ro  
-      - /mnt/wslg/.X11-unix:/mnt/wslg/.X11-unix:ro
-      - /mnt/wslg/.X11-unix:/tmp/.X11-unix:ro      # legacy path
-      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}    # SDK sources (optional)
+      - ./data:/data:rw    
     command: >
       bash -c "
         source /opt/ros/humble/setup.bash &&
@@ -24,7 +21,7 @@ services:
         colcon build --symlink-install --cmake-args -DHUMBLE_ROS=humble &&
         source install/setup.bash &&
         ros2 daemon start &&
-        ros2 launch livox_ros_driver2 msg_MID360_launch.py
+        tail -f /dev/null
       "
     environment:
       - LIVOX_LOG_LEVEL=DEBUG

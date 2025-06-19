@@ -1,4 +1,6 @@
 FROM ros:humble-ros-base-jammy
+
+RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
         build-essential cmake python3-colcon-common-extensions \

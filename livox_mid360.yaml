@@ -10,9 +10,9 @@
     sensor_frame: "sensor"
     sensor_frame_rot: "sensor_rot"
 
-    imu_acc_x_limit: 0.5
-    imu_acc_y_limit: 0.2
-    imu_acc_z_limit: 0.4
+    imu_acc_x_limit: 1.0
+    imu_acc_y_limit: 1.0
+    imu_acc_z_limit: 1.0
 
     # Feature Extraction Params
     feature_extraction_node:
@@ -28,7 +28,7 @@
         max_surface_features: 4000
 
         # For localization mode
-        localization_mode: true
+        localization_mode: false
         read_pose_file: false
         init_x: 0.0
         init_y: 0.0
