@@ -17,9 +17,9 @@ setup(
     maintainer_email='colinc131@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
-    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'talker = py_avoid.talker:main'
         ],
     },
 )

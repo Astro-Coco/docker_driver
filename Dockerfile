@@ -94,6 +94,7 @@ RUN pip install numpy==1.24.3 matplotlib==3.7.1
 RUN pip install --upgrade packaging
 RUN pip3 install torch
 
+
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
 

@@ -10,7 +10,8 @@ services:
     stdin_open: true
     # ⬇️  Bind-mount your workspaces so you can edit freely
     volumes:
-      - ./ros2_ws:/ros2_ws:rw           # whole workspace
+      - ./ros2_ws:/ros2_ws:rw
+      - ./dev_ws:/dev_ws:rw            # whole workspace
       - ./Livox-SDK2:/Livox-SDK2:rw 
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./data:/data:rw    
