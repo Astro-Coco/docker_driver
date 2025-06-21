@@ -57,6 +57,12 @@ docker exec -it docker_driver-livox-1 bash
 
 ## 3. Inside the Container
 
+### Full stack launch
+
+```bash
+source install/setup.bash
+ros2 launch livox_ros_driver2 stack_launch.py
+
 ### Build & Source ROS 2 Workspace
 
 Once inside:
