@@ -61,19 +61,17 @@ docker exec -it docker_driver-livox-1 bash
 
 Once inside:
 
-```bash
-source install/setup.bash
-```
-
 ### Launch the Livox Driver
 
 ```bash
+source install/setup.bash
 ros2 launch livox_ros_driver2 msg_MID360_launch.py
 ```
 
 ### Launch Odometry & Mapping
 
 ```bash
+source install/setup.bash
 ros2 launch super_odometry livox_mid360.launch.py
 ```
 

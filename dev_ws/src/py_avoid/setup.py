@@ -15,11 +15,12 @@ setup(
     zip_safe=True,
     maintainer='colin',
     maintainer_email='colinc131@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='About obstacle avoidance in ROS2, based on mid360 lidar data',
+    license='Apache-2.0',
     entry_points={
         'console_scripts': [
-            'talker = py_avoid.talker:main'
+            'talker = py_avoid.talker:main',
+            'odom = py_avoid.odom:main'
         ],
     },
 )
