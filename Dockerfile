@@ -89,10 +89,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
        python3-llvmlite \
  && rm -rf /var/lib/apt/lists/*
 
-RUN pip install rerun-sdk
+
 RUN pip install numpy==1.24.3 matplotlib==3.7.1
 RUN pip install --upgrade packaging
-RUN pip3 install torch
+RUN pip3 install zenmav
+RUN pip3 install pymavlink
+RUN pip3 install geopy
 
 
 ENV PROJECT_DIR=/ros2_ws/src           \

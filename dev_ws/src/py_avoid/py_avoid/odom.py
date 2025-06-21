@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
-
+from zenmav.core import Zenmav
 class LaserOdomSubscriber(Node):
 
     def __init__(self):
@@ -14,7 +14,10 @@ class LaserOdomSubscriber(Node):
             self.odom_callback,
             10)
         self.get_logger().info('Subscribed to /laser_odometry')
-
+        print('Trying to connect to MAVLink... ?')
+        nav = Zenmav(ip = '127.0.0.1:14551')
+        print('CONNECTED')
+        self.connected = 1
     def odom_callback(self, msg: Odometry):
         # Position
         px = msg.pose.pose.position.x
