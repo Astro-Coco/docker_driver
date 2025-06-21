@@ -23,7 +23,6 @@ services:
         source install/setup.bash &&
         cd /../dev_ws &&
         source /opt/ros/humble/setup.bash &&
-        source install/setup.bash &&
         colcon build &&
         ros2 daemon start &&
         tail -f /dev/null
