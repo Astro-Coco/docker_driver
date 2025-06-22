@@ -110,6 +110,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
 
 RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
 
+RUN pip install --no-cache-dir --upgrade transforms3d
 
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
