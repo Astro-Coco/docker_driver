@@ -105,7 +105,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
-       sudo apt install ros-humble-tf-transformations \
+       ros-humble-tf-transformations \
  && rm -rf /var/lib/apt/lists/*
 
 RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
