@@ -6,6 +6,13 @@ from nav_msgs.msg import Odometry
 from zenmav.core import Zenmav
 import numpy as np
 from tf_transformations import quaternion_multiply, quaternion_about_axis
+
+#  ✱ constant rotation:  -90° about +Z  (X→Y , Y→–X)
+ROT_Z_NEG90 = quaternion_about_axis(-np.pi/2, (0, 0, 1))
+#  helper: quaternion inverse (x,y,z,w order)
+def q_inv(q):
+    return np.array([-q[0], -q[1], -q[2],  q[3]]) / np.dot(q, q)
+
 class LaserOdomSubscriber(Node):
 
     def __init__(self):
@@ -18,8 +25,11 @@ class LaserOdomSubscriber(Node):
         self.get_logger().info('Subscribed to /laser_odometry')
         nav = Zenmav(ip = '127.0.0.1:14551')
 
+        self.use_initial_level = False   # ✱ remove initial attitude bias?
+        self.q0_inv = None  
+
         self.publisher = self.create_publisher(Odometry, '/mavros/odometry/out', 10)
-        self.pub_timer = self.create_timer(0.1, self.publish_odometry)
+        self.pub_timer = self.create_timer(0.05, self.publish_odometry)
         self.pose = None
 
     def publish_odometry(self):
@@ -31,26 +41,34 @@ class LaserOdomSubscriber(Node):
             
             # Fill in the position
             msg.pose.pose.position.x = self.py
-            msg.pose.pose.position.y = - self.px
-            msg.pose.pose.position.z = self.pz
+            msg.pose.pose.position.y =  self.px
+            msg.pose.pose.position.z = -self.pz
             
             # Fill in the orientation (quaternion)
-            msg.pose.pose.orientation.w = self.ow
-            msg.pose.pose.orientation.x = self.ox
-            msg.pose.pose.orientation.y = self.oy
-            msg.pose.pose.orientation.z = self.oz
+            q_in = np.array([self.ox, self.oy, self.oz, self.ow])
 
-            msg.pose.covariance = np.zeros(36).tolist()  # 6x6 covariance matrix flattened to 1D list
+            # optional “level” correction: remove initial attitude bias
+            if self.use_initial_level:
+                if self.q0_inv is None:
+                    self.q0_inv = q_inv(q_in)         # store on first callback
+                q_in = quaternion_multiply(self.q0_inv, q_in)
+
+            q_ros = quaternion_multiply(ROT_Z_NEG90, q_in)
+
+            
+
+            msg.pose.pose.orientation.x = q_ros[0]
+            msg.pose.pose.orientation.y = q_ros[1]
+            msg.pose.pose.orientation.z = q_ros[2]
+            msg.pose.pose.orientation.w = q_ros[3]
             
             # Fill in the linear velocity
             msg.twist.twist.linear.x = self.lvy
             msg.twist.twist.linear.y = - self.lvx
             msg.twist.twist.linear.z = self.lvz
-            
-            # Fill in the angular velocity
-            msg.twist.twist.angular.x = 0.0
-            msg.twist.twist.angular.y = 0.0
-            msg.twist.twist.angular.z = 0.0
+
+            msg.pose.covariance  = [0.0]*36
+            msg.twist.covariance = [0.0]*36
 
             self.publisher.publish(msg)
             self.get_logger().info(f'PUBLISHED')
@@ -64,11 +82,11 @@ class LaserOdomSubscriber(Node):
         self.get_logger().info(f'child_frame_id={child}')
         # Position
         self.pose = msg.pose.pose.position
-        self.px = msg.pose.pose.position.x
-        self.py = msg.pose.pose.position.y
-        self.pz = msg.pose.pose.position.z
+        self.px = self.pose.x
+        self.py = self.pose.y
+        self.pz = self.pose.z
         self.get_logger().info(f'Position → x: {self.px:.3f}, y: {self.py:.3f}, z: {self.pz:.3f}')
-        self.pose_cov = np.array(msg.pose.covariance).reshape(6, 6)
+        #self.pose_cov = np.array(msg.pose.covariance).reshape(6, 6)
         #self.get_logger().info(f'Pose Covariance:\n{pose_cov}')
         # Orientation (quaternion)
         self.ow = msg.pose.pose.orientation.w
@@ -82,14 +100,7 @@ class LaserOdomSubscriber(Node):
         self.lvy = msg.twist.twist.linear.y
         self.lvz = msg.twist.twist.linear.z
         #self.get_logger().info(f'Linear Vel → x: {lvx:.3f}, y: {lvy:.3f}, z: {lvz:.3f}')
-        self.twist_cov = np.array(msg.twist.covariance).reshape(6, 6)
-        #self.get_logger().info(f'Twist Covariance:\n{twist_cov}')
 
-        # Angular velocity
-        avx = msg.twist.twist.angular.x
-        avy = msg.twist.twist.angular.y
-        avz = msg.twist.twist.angular.z
-        self.get_logger().info(f'Angular Vel → x: {avx:.3f}, y: {avy:.3f}, z: {avz:.3f}')
 
 def main(args=None):
     rclpy.init(args=args)
