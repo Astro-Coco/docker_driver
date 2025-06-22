@@ -96,6 +96,20 @@ RUN pip3 install zenmav
 RUN pip3 install pymavlink
 RUN pip3 install geopy
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ros-humble-mavros \
+  ros-humble-mavros-extras \
+  ros-humble-mavlink \
+  geographiclib-tools
+
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
+ && apt-get install -y --no-install-recommends \
+       sudo apt install ros-humble-tf-transformations \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
+
 
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
