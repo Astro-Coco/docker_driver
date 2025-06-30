@@ -65,6 +65,14 @@ ros2 launch livox_ros_driver2 stack_launch.py
 
 ### Build & Source ROS 2 Workspace
 
+### Launch odometry feed
+
+```bash
+cd ../dev_ws
+source install/setup.bash
+ros2 run py_avoid odom
+```
+
 Once inside:
 
 ### Launch the Livox Driver
@@ -84,6 +92,8 @@ cd ../dev_ws
 source install/setup.bash
 ros2 run py_avoid odom
 ```
+
+
 ### Launch Odometry & Mapping
 
 ```bash
