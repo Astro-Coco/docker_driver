@@ -23,7 +23,7 @@ class LaserOdomSubscriber(Node):
             self.odom_callback,
             10)
         self.get_logger().info('Subscribed to /laser_odometry')
-        nav = Zenmav(ip = '127.0.0.1:14551')
+        #nav = Zenmav(ip = '127.0.0.1:14551')
 
         self.publisher = self.create_publisher(Odometry, '/mavros/odometry/out', 10)
         pub_Freq = 15 
@@ -58,32 +58,34 @@ class LaserOdomSubscriber(Node):
             msg.twist.twist.linear.y = - self.lvx
             msg.twist.twist.linear.z = self.lvz
 
-            sig_pos_xy  = 0.03     # metres
-            sig_pos_z   = 0.05
-            sig_ang_rp  = np.deg2rad(5)
-            sig_ang_yaw = np.deg2rad(3)
+            sig_pos_xy  = 0.03          # m
+            sig_pos_z   = 0.03
+            sig_ang_rp  = float(np.deg2rad(5))
+            sig_ang_yaw = float(np.deg2rad(3))
 
-            msg.pose.covariance = [
-                sig_pos_xy**2, 0, 0, 0, 0, 0,
-                0, sig_pos_xy**2, 0, 0, 0, 0,
-                0, 0, sig_pos_z**2, 0, 0, 0,
-                0, 0, 0, sig_ang_rp**2, 0, 0,
-                0, 0, 0, 0, sig_ang_rp**2, 0,
-                0, 0, 0, 0, 0, sig_ang_yaw**2
+            pose_cov = [
+                float(sig_pos_xy**2), 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, float(sig_pos_xy**2), 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, float(sig_pos_z**2), 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, float(sig_ang_rp**2), 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, float(sig_ang_rp**2), 0.0,
+                0.0, 0.0, 0.0, 0.0, 0.0, float(sig_ang_yaw**2)
             ]
 
-            sig_speed_xy  = 0.1     # metres
-            sig_speed_z   = 0.1
+            msg.pose.covariance = pose_cov
+
+            sig_speed_xy  = 0.5    # metres
+            sig_speed_z   = 0.5
             sig_speed_ang_rp  = 0.1
             sig_speed_ang_yaw = 0.1
 
             msg.twist.covariance = [
-                sig_speed_xy**2, 0, 0, 0, 0, 0,
-                0, sig_speed_xy**2, 0, 0, 0, 0,
-                0, 0, sig_speed_z**2, 0, 0, 0,
-                0, 0, 0, sig_speed_ang_rp**2, 0, 0,
-                0, 0, 0, 0, sig_speed_ang_rp**2, 0,
-                0, 0, 0, 0, 0, sig_speed_ang_yaw**2
+                float(sig_speed_xy**2), 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, float(sig_speed_xy**2), 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, float(sig_speed_z**2), 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, float(sig_speed_ang_rp**2), 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, float(sig_speed_ang_rp**2), 0.0,
+                0.0, 0.0, 0.0, 0.0, 0.0, float(sig_speed_ang_yaw**2)
             ]
 
             msg.twist.twist.angular.x = float('nan')
@@ -91,23 +93,23 @@ class LaserOdomSubscriber(Node):
             msg.twist.twist.angular.z = float('nan')
 
             self.publisher.publish(msg)
-            self.get_logger().info(f'PUBLISHED')
+            #self.get_logger().info(f'PUBLISHED')
 
     def odom_callback(self, msg: Odometry):
         stamp = msg.header.stamp              # builtin_interfaces/Time
         t_sec, t_nsec = stamp.sec, stamp.nanosec
         parent = msg.header.frame_id
-        self.get_logger().info(f'[{t_sec}.{t_nsec:09}] frame={parent}')
+        #self.get_logger().info(f'[{t_sec}.{t_nsec:09}] frame={parent}')
         child = msg.child_frame_id
-        self.get_logger().info(f'child_frame_id={child}')
+        #self.get_logger().info(f'child_frame_id={child}')
         # Position
         self.pose = msg.pose.pose.position
         self.px = self.pose.x
         self.py = self.pose.y
         self.pz = self.pose.z
         self.get_logger().info(f'Position → x: {self.px:.3f}, y: {self.py:.3f}, z: {self.pz:.3f}')
-        self.pose_cov = np.array(msg.pose.covariance).reshape(6, 6)
-        self.get_logger().info(f'Pose Covariance:\n{self.pose_cov}')
+        #self.pose_cov = np.array(msg.pose.covariance).reshape(6, 6)
+        #self.get_logger().info(f'Pose Covariance:\n{self.pose_cov}')
         # Orientation (quaternion)
         self.ow = msg.pose.pose.orientation.w
         self.ox = msg.pose.pose.orientation.x
