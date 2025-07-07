@@ -19,7 +19,7 @@ class LaserOdomSubscriber(Node):
         super().__init__('laser_odom_subscriber')
         self.subscription = self.create_subscription(
             Odometry,
-            '/state_estimation',
+            '/laser_odometry',
             self.odom_callback,
             10)
         self.get_logger().info('Subscribed to /laser_odometry')
@@ -43,12 +43,10 @@ class LaserOdomSubscriber(Node):
             msg.pose.pose.position.z = self.pz
 
             # Fill in the linear velocity
-            '''msg.twist.twist.linear.x = self.lvy
+            msg.twist.twist.linear.x = self.lvy
             msg.twist.twist.linear.y = - self.lvx
-            msg.twist.twist.linear.z = self.lvz'''
-            msg.twist.twist.linear.x = float('nan')
-            msg.twist.twist.linear.y = float('nan')
-            msg.twist.twist.linear.z = float('nan')
+            msg.twist.twist.linear.z = self.lvz
+
             
             # Fill in the orientation (quaternion)
             q_in = np.array([self.ox, self.oy, self.oz, self.ow])
