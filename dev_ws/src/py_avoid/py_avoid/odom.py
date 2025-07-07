@@ -10,7 +10,7 @@ from tf_transformations import (
     quaternion_multiply, quaternion_about_axis
 )
 
-#  ✱ constant rotation:  -90° about +Z  (X→Y , Y→–X)
+# constant rotation:  -90° about +Z  (X→Y , Y→–X)
 ROT_Z_NEG90 = quaternion_about_axis(-np.pi/2, (0, 0, 1))
 
 class LaserOdomSubscriber(Node):
@@ -74,8 +74,8 @@ class LaserOdomSubscriber(Node):
 
             msg.pose.covariance = pose_cov
 
-            sig_speed_xy  = 0.5    # metres
-            sig_speed_z   = 0.5
+            sig_speed_xy  = 0.05    # metres
+            sig_speed_z   = 0.05
             sig_speed_ang_rp  = 0.1
             sig_speed_ang_yaw = 0.1
 
