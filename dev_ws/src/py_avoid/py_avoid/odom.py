@@ -19,7 +19,7 @@ class LaserOdomSubscriber(Node):
         super().__init__('laser_odom_subscriber')
         self.subscription = self.create_subscription(
             Odometry,
-            '/state_estimation',
+            '/laser_odometry',
             self.odom_callback,
             10)
         self.get_logger().info('Subscribed to /laser_odometry')
@@ -41,6 +41,12 @@ class LaserOdomSubscriber(Node):
             msg.pose.pose.position.x = self.py
             msg.pose.pose.position.y =  -self.px
             msg.pose.pose.position.z = self.pz
+
+            # Fill in the linear velocity
+            msg.twist.twist.linear.x = self.lvy
+            msg.twist.twist.linear.y = - self.lvx
+            msg.twist.twist.linear.z = self.lvz
+
             
             # Fill in the orientation (quaternion)
             q_in = np.array([self.ox, self.oy, self.oz, self.ow])
@@ -53,10 +59,7 @@ class LaserOdomSubscriber(Node):
             msg.pose.pose.orientation.z = q_ros[2]
             msg.pose.pose.orientation.w = q_ros[3]
             
-            # Fill in the linear velocity
-            msg.twist.twist.linear.x = self.lvy
-            msg.twist.twist.linear.y = - self.lvx
-            msg.twist.twist.linear.z = self.lvz
+
 
             sig_pos_xy  = 0.03          # m
             sig_pos_z   = 0.03
@@ -71,6 +74,7 @@ class LaserOdomSubscriber(Node):
                 0.0, 0.0, 0.0, 0.0, float(sig_ang_rp**2), 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, float(sig_ang_yaw**2)
             ]
+            
 
             msg.pose.covariance = pose_cov
 
@@ -86,7 +90,10 @@ class LaserOdomSubscriber(Node):
                 0.0, 0.0, 0.0, float(sig_speed_ang_rp**2), 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, float(sig_speed_ang_rp**2), 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, float(sig_speed_ang_yaw**2)
-            ]
+            ]'''
+
+            
+
 
             msg.twist.twist.angular.x = float('nan')
             msg.twist.twist.angular.y = float('nan')
