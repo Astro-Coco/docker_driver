@@ -50,7 +50,7 @@ class LaserOdomSubscriber(Node):
     def publish_odometry(self):
         if self.pose is not None:
             msg = Odometry()
-            msg.header.stamp = self.get_clock().now().to_msg()
+            msg.header.stamp = self.stamp
             msg.header.frame_id = 'map'
             msg.child_frame_id = 'base_link'
             
@@ -124,7 +124,7 @@ class LaserOdomSubscriber(Node):
             #self.get_logger().info(f'PUBLISHED')
 
     def odom_callback(self, msg: Odometry):
-        stamp = msg.header.stamp              # builtin_interfaces/Time
+        self.stamp = msg.header.stamp              # builtin_interfaces/Time
         t_sec, t_nsec = stamp.sec, stamp.nanosec
         parent = msg.header.frame_id
         #self.get_logger().info(f'[{t_sec}.{t_nsec:09}] frame={parent}')
