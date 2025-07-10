@@ -24,3 +24,4 @@ dev_ws/install/
 dev_ws/log/
 
 data/*
+dev_ws/core
