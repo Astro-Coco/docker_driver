@@ -6,7 +6,7 @@ from nav_msgs.msg import Odometry
 from zenmav.core import Zenmav
 import numpy as np
 import time
-
+from mavros_msgs.msg import State
 from tf_transformations import (
     quaternion_multiply, quaternion_about_axis, quaternion_conjugate, quaternion_matrix
 )
@@ -49,7 +49,14 @@ class LaserOdomSubscriber(Node):
 
         self.first_passed = False
         self.last_stamp = None
-        
+        self.timeout = False
+
+        self.mode_sub = self.create_subscription(
+            State,
+            '/mavros/state',
+            self.update_mode,
+            10)
+
 
 
     def publish_odometry(self):
@@ -100,7 +107,7 @@ class LaserOdomSubscriber(Node):
         msg.pose.covariance = pose_cov
 
         sig_speed_xy  = 0.15    # metres
-        sig_speed_z   = 0.3
+        sig_speed_z   = 0.15
         sig_speed_ang_rp  = 0.1
         sig_speed_ang_yaw = 0.1
 
@@ -117,6 +124,7 @@ class LaserOdomSubscriber(Node):
         msg.twist.twist.angular.y = float('nan')
         msg.twist.twist.angular.z = float('nan')
 
+        self.timeout = False
         self.publisher.publish(msg)
 
 
@@ -154,12 +162,27 @@ class LaserOdomSubscriber(Node):
 
         self.publish_odometry()
 
-    def check_health(self):
-        if self.stamp == self.last_stamp:
-            self.get_logger().warn('No new odometry data received')
-            self.nav.set_mode('LAND')
+    def update_mode(self, msg: State):
+        if not self.timeout:
+            self.mode = msg.mode
 
-        self.last_stamp = self.stamp
+    def abort_mission(self):
+        if self.stamp == self.last_stamp:
+            self.get_logger().warn('No new odometry data received, aborting mission')
+            self.nav.set_mode('LAND')
+        else:
+            self.get_logger().info('Odometry data received, mission continues')
+            self.nav.set_mode(self.mode)
+            
+
+    def check_health(self):
+        if (self.stamp == self.last_stamp) and not self.timeout:
+            self.get_logger().warn('No new odometry data received')
+            self.timeout = True
+            self.nav.set_mode('ALT_HOLD')
+            self.abort_timer = self.create_timer(2, self.abort_mission)
+        else:
+            self.last_stamp = self.stamp
 
 
 def main(args=None):
