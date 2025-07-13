@@ -19,6 +19,8 @@ services:
       bash -c "
         source /opt/ros/humble/setup.bash &&
         cd /ros2_ws &&
+        rosdep update &&                                  
+        rosdep install --from-paths src --ignore-src -y &&
         colcon build --symlink-install --cmake-args -DHUMBLE_ROS=humble &&
         source install/setup.bash &&
         cd /../dev_ws &&
