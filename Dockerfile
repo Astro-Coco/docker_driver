@@ -114,11 +114,7 @@ RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
 
 RUN pip install --no-cache-dir --upgrade transforms3d
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
- && apt-get install -y --no-install-recommends \
-        ros-humble-rqt \
-        ros-humble-rqt-common-plugins \
-    && rm -rf /var/lib/apt/lists/*
+
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
