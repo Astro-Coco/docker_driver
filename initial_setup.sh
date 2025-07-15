@@ -9,7 +9,7 @@ declare -A repos=(
   [ros2_ws/src/SuperOdom]="https://github.com/superxslam/SuperOdom.git"
   [Sophus]="http://github.com/strasdat/Sophus.git"
   [gtsam]="https://github.com/borglab/gtsam.git"
-  [ros2_ws/src/ego-planner-swarm]="https://github.com/ZJU-FAST-Lab/ego-planner-swarm.git#ros2_version"
+  [ros2_ws/src/ego-planner-swarm]="https://github.com/ZJU-FAST-Lab/ego-planner-swarm.git"
 )
 
 for target in "${!repos[@]}"; do
@@ -19,7 +19,11 @@ for target in "${!repos[@]}"; do
   else
     echo "⏳ Cloning $url → $target"
     mkdir -p "$(dirname "$target")"
+    if [[ "$target" == "ros2_ws/src/ego-planner-swarm" ]]; then
+    git clone --branch ros2_version --single-branch "$url" "$target"
+    else
     git clone "$url" "$target"
+    fi
   fi
 done
 

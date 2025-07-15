@@ -116,7 +116,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
         ros-humble-rqt \
         ros-humble-rqt-common-plugins \
-        libvtk7-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
+ && apt-get install -y --no-install-recommends \
+        libvtk9-dev \
         ros-humble-rmw-cyclonedds-cpp \
     && rm -rf /var/lib/apt/lists/*
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
