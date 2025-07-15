@@ -116,9 +116,11 @@ RUN pip install --no-cache-dir --upgrade transforms3d
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
-        ros-humble-rqt \
-        ros-humble-rqt-common-plugins \
-    && rm -rf /var/lib/apt/lists/*
+       ros-humble-tf-transformations \
+       ros-humble-pointcloud-to-laserscan \
+       ros-humble-mavros-msgs \
+ && rm -rf /var/lib/apt/lists/*
+
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
