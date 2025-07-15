@@ -19,8 +19,8 @@ setup(
     license='Apache-2.0',
     entry_points={
         'console_scripts': [
-            'talker = py_avoid.talker:main',
-            'odom = py_avoid.odom:main'
+            'odom = py_avoid.odom:main',
+            'scan_to_mavlink = py_avoid.scan_to_mavlink_node:main',
         ],
     },
 )

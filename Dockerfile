@@ -106,11 +106,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
        ros-humble-tf-transformations \
+       ros-humble-pointcloud-to-laserscan \
+       ros-humble-mavros-msgs \
  && rm -rf /var/lib/apt/lists/*
 
 RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
 
 RUN pip install --no-cache-dir --upgrade transforms3d
+
+
 
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
