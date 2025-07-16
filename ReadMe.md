@@ -63,6 +63,12 @@ docker exec -it docker_driver-livox-1 bash
 source install/setup.bash
 ros2 launch livox_ros_driver2 stack_launch.py
 
+```bash
+cd ../dev_ws
+source install/setup.bash
+ros2 launch bringup pc2_to_scan.launch.py
+```
+
 ### Build & Source ROS 2 Workspace
 
 ### Launch odometry feed
