@@ -4,3 +4,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
         ros-humble-rmw-cyclonedds-cpp \
     && rm -rf /var/lib/apt/lists/*
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+        '''Node(
+            package    = 'tf2_ros',
+            executable = 'static_transform_publisher',
+            name       = 'static_sensor_to_base_link',
+            # each CLI token **must** be its own string
+            arguments  = [
+                '0.0', '0.0', '0.05',          # x y z
+                '0.0',   '0.0',   '0.0',     # yaw pitch roll
+                'sensor', 'base_link'          # parent  child
+            ],
+            output = 'screen',                 # optional: pipe logs to terminal
+            # arguments += ['--period', '0.05']  # uncomment → re-broadcast at 20 Hz
+        ),'''
