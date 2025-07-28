@@ -34,7 +34,6 @@ NEW_FILE="$TARGET_DIR/package.xml"
 if [ -f "$OLD_FILE" ]; then
   if [ -e "$NEW_FILE" ]; then
     echo "⚠️  Le fichier cible existe déjà : $NEW_FILE" >&2
-    exit 1
   fi
 
   echo "Copie de $OLD_FILE → $NEW_FILE"
@@ -42,7 +41,6 @@ if [ -f "$OLD_FILE" ]; then
   echo "Terminé. $OLD_FILE est toujours là."
 else
   echo "⚠️  Fichier introuvable : $OLD_FILE" >&2
-  exit 1
 fi
 
 config_src="MID360_config.json"
@@ -55,6 +53,16 @@ if [ -f "$config_src" ]; then
   echo "Configuration updated."
 else
   echo "⚠️  Config file not found: $config_src" >&2
-  exit 1
 fi
 
+launch_src="single_run_real.launch.py"
+launch_dst="ros2_ws/src/ego-planner-swarm/src/planner/plan_manage/launch"
+
+if [ ! -f "$launch_src" ]; then
+  echo "⚠️  Launch file not found: $launch_src" >&2
+fi
+
+echo "Copying $launch_src → $launch_dst/"
+mkdir -p "$launch_dst"
+cp "$launch_src" "$launch_dst/"
+echo "✅  Copied."

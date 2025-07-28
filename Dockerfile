@@ -1,6 +1,6 @@
 FROM ros:humble-ros-base-jammy
 
-RUN echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
+
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
         build-essential cmake python3-colcon-common-extensions \
@@ -8,7 +8,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
         python3-numpy python3-dev python3-setuptools python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install the Livox SDK ONLY (the driver will be mounted in later)
+
 COPY --chown=root:root Livox-SDK2 /Livox-SDK2
 RUN mkdir /Livox-SDK2/build && cd /Livox-SDK2/build \
  && cmake .. && make -j$(nproc) && make install \
@@ -115,8 +115,6 @@ RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
 RUN pip install --no-cache-dir --upgrade transforms3d
 
 
-
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y --no-install-recommends \
         libvtk9-dev \
@@ -125,9 +123,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 
-
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
 
-# Same entrypoint as before
+
 WORKDIR /ros2_ws
