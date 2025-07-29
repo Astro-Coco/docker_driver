@@ -26,8 +26,8 @@ class ScanRelay(Node):
 
         self.get_logger().info(
             'Relay running: /scan (BEST_EFFORT) → /mavros/obstacle/send (RELIABLE)')
-def pub_cb(self, msg):
-        self.pub.publish(msg)
+    def pub_cb(self, msg):
+            self.pub.publish(msg)
 
 def main(args=None):
     rclpy.init(args=args)
