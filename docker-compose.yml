@@ -9,7 +9,8 @@ services:
     stdin_open: true
     volumes:
       - ./ros2_ws:/ros2_ws:rw
-      - ./dev_ws:/dev_ws:rw          
+      - ./dev_ws:/dev_ws:rw  
+      - ./connections:/connections:rw        
       - ./Livox-SDK2:/Livox-SDK2:rw 
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./data:/data:rw    
@@ -38,3 +39,5 @@ services:
       - DISPLAY
       - WAYLAND_DISPLAY
       - XDG_RUNTIME_DIR
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONEDDS_URI=file:///connections/cyclonedds_profile.xml

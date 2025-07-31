@@ -122,9 +122,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/*
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-
 ENV PROJECT_DIR=/ros2_ws/src           \
     DATASET_DIR=/data
-
 
 WORKDIR /ros2_ws

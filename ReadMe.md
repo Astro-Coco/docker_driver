@@ -79,6 +79,10 @@ source install/setup.bash
 ros2 run py_avoid odom
 ```
 
+```bash
+source install/setup.bash
+ros2 launch ego_planner single_run_real.launch.py
+```
 Once inside:
 
 ### Launch the Livox Driver
