@@ -36,8 +36,5 @@ services:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
       - DATASET_DIR=/data
-      - DISPLAY
-      - WAYLAND_DISPLAY
-      - XDG_RUNTIME_DIR
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - CYCLONEDDS_URI=file:///connections/cyclonedds_profile.xml
+      - CYCLONEDDS_URI=file:///connections/cycloneDDS_profile.xml
