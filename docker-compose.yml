@@ -16,6 +16,7 @@ services:
       - ./data:/data:rw    
     command: >
       bash -c "
+        ip route del default dev end0 2>/dev/null || true &&
         source /opt/ros/humble/setup.bash &&
         cd /ros2_ws &&                              
         colcon build --symlink-install --cmake-args -DHUMBLE_ROS=humble &&

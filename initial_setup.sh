@@ -66,3 +66,5 @@ echo "Copying $launch_src → $launch_dst/"
 mkdir -p "$launch_dst"
 cp "$launch_src" "$launch_dst/"
 echo "✅  Copied."
+
+chmod +x docker-entrypoint.sh

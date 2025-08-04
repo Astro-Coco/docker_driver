@@ -104,6 +104,10 @@ ros2 run py_avoid odom
 ```
 
 
+```bash
+sudo ip route del default dev end0
+```
+
 ### Launch Odometry & Mapping
 
 ```bash
