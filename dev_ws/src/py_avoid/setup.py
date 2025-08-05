@@ -21,7 +21,8 @@ setup(
         'console_scripts': [
             'odom = py_avoid.odom:main',
             'scan_to_mavlink = py_avoid.scan_to_mavlink_node:main',
-            'scan_rotator = py_avoid.pointcloud_rotator:main'
+            'scan_rotator = py_avoid.pointcloud_rotator:main',
+            'command_relay = py_avoid.planner_command_relay:main'
         ],
     },
 )
