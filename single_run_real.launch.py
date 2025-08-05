@@ -10,13 +10,13 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     # 定义参数的 LaunchConfiguration
-    obj_num = LaunchConfiguration('obj_num', default=10)
+    obj_num = LaunchConfiguration('obj_num', default=0)
     drone_id = LaunchConfiguration('drone_id', default=0)
     
     map_size_x = LaunchConfiguration('map_size_x', default = 50.0)
-    map_size_y = LaunchConfiguration('map_size_y', default = 25.0)
+    map_size_y = LaunchConfiguration('map_size_y', default = 50.0)
     map_size_z = LaunchConfiguration('map_size_z', default = 2.0)
-    odom_topic = LaunchConfiguration('odom_topic', default = 'laser_odometry')
+    odom_topic = LaunchConfiguration('odom_topic', default = '/mavros/odometry/out')
     
     
     # 声明全局参数
@@ -43,42 +43,18 @@ def generate_launch_description():
             'map_size_x_': map_size_x,
             'map_size_y_': map_size_y,
             'map_size_z_': map_size_z,
-            'odometry_topic': odom_topic,
+            
             'obj_num_set': obj_num,
             
-            'camera_pose_topic': 'pcl_render_node/camera_pose',
-            'depth_topic': 'pcl_render_node/depth',
-            'cloud_topic': 'pcl_render_node/cloud',
-            
-            'cx': str(321.04638671875),
-            'cy': str(243.44969177246094),
-            'fx': str(387.229248046875),
-            'fy': str(387.229248046875),
+            'odometry_topic': odom_topic,
+            'cloud_topic': '/registered_scan_rot90',
+
             'max_vel': str(2.0),
             'max_acc': str(3.0),
-            'planning_horizon': str(7.5),
+            'planning_horizon': str(5),
             'use_distinctive_trajs': 'True',
-            'flight_type': str(2),
-            'point_num': str(4),
-            'point0_x': str(15.0),
-            'point0_y': str(0.0),
-            'point0_z': str(1.0),
-            
-            'point1_x': str(-15.0),
-            'point1_y': str(0.0),
-            'point1_z': str(1.0),
-            
-            'point2_x': str(15.0),
-            'point2_y': str(0.0),
-            'point2_z': str(1.0),
-            
-            'point3_x': str(-15.0),
-            'point3_y': str(0.0),
-            'point3_z': str(1.0),
-            
-            'point4_x': str(15.0),
-            'point4_y': str(0.0),
-            'point4_z': str(1.0),
+            'flight_type': str(1),
+
         }.items()
     )
     
