@@ -3,7 +3,7 @@
   <Domain id="any">
     <General>
       <Interfaces>
-        <NetworkInterface autodetermine="true" prefer_multicast="true" presence_required="false"/>
+        <NetworkInterface name="wlan0"  prefer_multicast="true" presence_required="false"/>
       </Interfaces>
       <AllowMulticast>true</AllowMulticast>
       <ExternalNetworkAddress>auto</ExternalNetworkAddress>
