@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CycloneDDS xmlns="https://cdds.io/config">
+<CycloneDDS>
   <Domain id="any">
     <General>
-      <Interfaces>
-        <NetworkInterface name="wlan0"  prefer_multicast="true" presence_required="false"/>
-      </Interfaces>
-      <AllowMulticast>true</AllowMulticast>
-      <ExternalNetworkAddress>auto</ExternalNetworkAddress>
+      <Network>
+        <Interfaces>
+          <Allow>wlan0</Allow>
+          <Deny>!</Deny>
+        </Interfaces>
+        <EnableMulticast>true</EnableMulticast>
+      </Network>
     </General>
-    <SharedMemory><Enable>false</Enable></SharedMemory>
-    <Tracing><Verbosity>config</Verbosity><OutputFile>stdout</OutputFile></Tracing>
   </Domain>
 </CycloneDDS>
