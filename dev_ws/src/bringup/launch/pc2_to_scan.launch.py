@@ -41,6 +41,14 @@ def generate_launch_description():
 
         Node(
             package='py_avoid',
+            executable='scan_rotator',      # same token you use with ros2 run
+            name='scan_rotator',
+            output='screen',
+            # parameters=[...]                # add params if the node accepts any
+        ),
+
+        Node(
+            package='py_avoid',
             executable='scan_to_mavlink',      # same token you use with ros2 run
             name='scan_to_mavlink',
             output='screen',
