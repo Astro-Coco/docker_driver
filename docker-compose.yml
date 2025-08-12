@@ -40,3 +40,4 @@ services:
       - DISPLAY
       - WAYLAND_DISPLAY
       - XDG_RUNTIME_DIR
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp

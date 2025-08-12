@@ -36,6 +36,13 @@ def generate_launch_description():
             executable='odom',      # same token you use with ros2 run
             name='odom',
             output='screen',
+        ),
+
+        Node(
+            package='py_avoid',
+            executable='scan_rotator',      # same token you use with ros2 run
+            name='scan_rotator',
+            output='screen',
             # parameters=[...]                # add params if the node accepts any
         ),
 

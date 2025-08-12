@@ -114,16 +114,13 @@ RUN /opt/ros/humble/lib/mavros/install_geographiclib_datasets.sh
 
 RUN pip install --no-cache-dir --upgrade transforms3d
 
+# Force Fast-DDS (FastRTPS) at build + runtime
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
-
-
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
- && apt-get install -y --no-install-recommends \
-        libvtk9-dev \
-        ros-humble-rmw-cyclonedds-cpp \
-    && rm -rf /var/lib/apt/lists/*
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-
+# (Usually already present in ROS Humble images, but harmless to ensure)
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    ros-humble-rmw-fastrtps-cpp \
+ && rm -rf /var/lib/apt/lists/*
 
 
 ENV PROJECT_DIR=/ros2_ws/src           \
