@@ -249,47 +249,15 @@ Mecanical designed is done, but could be refined a bit still.
 
 Software side:
     Odometry, obstacle avoidance, and sufarce tracking all work. The drone is able to use autonomous modes like GUIDED, LOITER, RTL. It can be speed controled, position controled, acceleration controled, as needed. A stable version of all those features are in the branch no_planner. 
+    Small issue with this stable version : livox_ros_driver2 publishes the lidar's data at about 75% of the speed in the config file.
 
     The current work that needs testing is the ego-swarm local planner, and eventually an even high lever planner, altough for testing, local targets can be sent manually.
 
-    If it's integrated in theory, there was still issues with multicast causing a conflict with the ethernet port of the lidar's. Ego-Planner-Swarm needs CycloneDDS rwm implementation, which si not needed in the no_planner branch, hence this one being more stable.
+    If it's integrated in theory, there was still issues with multicast causing a conflict with the ethernet port of the lidar's. Ego-Planner-Swarm needs CycloneDDS rwm implementation, which si not needed in the no_planner branch, hence this one being more stable. Instead of using Cyclone as recommended by ego-swarm' dev, it might be a better idea juste to use Zenoh middleware.
 
     This most recent work is in the master branch, with node as :
 
 ---
-## Diagrams
-```mermaid
-flowchart LR
-    subgraph Host "Raspberry Pi 5 (host)"
-        WIFI["wlan0<br/>(Wi‑Fi)"]
-        ETH["end0<br/>(Ethernet to MID360)"]
-        Docker["Docker Engine"]
-        MAVProxy["MAVProxy<br/>(UDP router)"]
-    end
-
-    subgraph Ctn "docker_driver container"
-        direction TB
-        Livox["livox_ros_driver2<br/>(msg_MID360_launch.py)"]
-        SuperOdom["super_odometry<br/>(livox_mid360.launch.py)"]
-        DevOdom["dev_ws: py_avoid odom"]
-        Scan2Mav["dev_ws: scan_to_mavlink"]
-        MAVROS["MAVROS bridge"]
-    end
-
-    MID360["Livox MID360<br/>(192.168.1.3)"] --- ETH
-    Docker --> Ctn
-
-    Livox -- "/livox/points<br/>(sensor_msgs/PointCloud2)" --> SuperOdom
-    SuperOdom -- "/odometry/odom<br/>(nav_msgs/Odometry)" --> DevOdom
-    Livox -. optional .-> Scan2Mav
-
-    DevOdom -- "MAVLink ODOM/ VISION" --> MAVROS
-    Scan2Mav -- "MAVLink OBSTACLE_DISTANCE/PRX" --> MAVROS
-
-    MAVROS -- "UDP 127.0.0.1:14551" --> MAVProxy
-    MAVProxy -- "SERIAL TELEM" --> FCU["Pixhawk / ArduPilot"]
-```
-
 
 
 ## History
